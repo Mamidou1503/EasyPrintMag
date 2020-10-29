@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "72080494147",
+    "firebase_url": "https://easyprint-9d892.firebaseio.com",
+    "project_id": "easyprint-9d892",
+    "storage_bucket": "easyprint-9d892.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72080494147:android:9aa2b8fd405a3336fd8ef6",
+        "android_client_info": {
+          "package_name": "com.example.easyprint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72080494147-knsl5p3khlkr518cko7a8es5m7vh2qq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASHw1MbhNIzJ-Zq58Qx6gRlwq7ECr7HAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72080494147-knsl5p3khlkr518cko7a8es5m7vh2qq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72080494147:android:43b9f21fd98f1e15fd8ef6",
+        "android_client_info": {
+          "package_name": "com.example.furniture_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72080494147-pq29r6s0mols98dn382nr01b7fe01okh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.furniture_app",
+            "certificate_hash": "48966178cbd0e84ee806b4e119740a573269576c"
+          }
+        },
+        {
+          "client_id": "72080494147-9c0r8cf3isui6l52om3fai6n4vheunh5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.furniture_app",
+            "certificate_hash": "66cb2e765872f83b329c19c244a234b9966ee013"
+          }
+        },
+        {
+          "client_id": "72080494147-9n2hog4bc4r2m37i5o7s1lhtkdqivfth.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.furniture_app",
+            "certificate_hash": "95b93b49228a7d9538d379226569f4b751b6663b"
+          }
+        },
+        {
+          "client_id": "72080494147-knsl5p3khlkr518cko7a8es5m7vh2qq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASHw1MbhNIzJ-Zq58Qx6gRlwq7ECr7HAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72080494147-knsl5p3khlkr518cko7a8es5m7vh2qq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
