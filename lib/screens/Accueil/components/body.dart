@@ -12,18 +12,16 @@ class Body extends StatefulWidget {
   @override
   _Boddy createState() => _Boddy();
 }
-
 class _Boddy extends State<Body> {
   String v;
   List categories = ["Toute", "En attente", "Traitées"];
-
-  Future getComm(int i,String sr ) async {
+  Future getComm(int i ) async {
     QuerySnapshot qr;
-    if (sr==""){
     if (i == 0)
       qr = await firestore.collection("Commande")
           .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
           .where("EtatPanier", isEqualTo: true)
+          //.orderBy('Date')
           .get();
     else if (i == 1)
       qr = await firestore
@@ -31,32 +29,25 @@ class _Boddy extends State<Body> {
           .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
           .where("EtatCommande", isEqualTo: false)
           .where("EtatPanier", isEqualTo: true)
+          //.orderBy('EtatCommande').orderBy('Date')
           .get();
     else if (i == 2)
       qr = await firestore
           .collection("Commande")
           .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
           .where("EtatCommande", isEqualTo: true)
+          //.orderBy('EtatCommande').orderBy('Date')
           .get();
     return qr.docs;
-  }
-    else{
-      qr = await firestore.collection("Commande")
-          .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
-          .where("NumC", isEqualTo:sr )
-          .get();
-    }
-    return qr.docs;
-  }
-Future searchh(String nc)async{
 
-}
+  }
   Future getCommm(int i) async {
     QuerySnapshot qr;
     if (i == 0)
       qr = await firestore.collection("Commande")
           .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
           .where("EtatPanier", isEqualTo: true)
+          //.orderBy('Date')
           .get();
     else if (i == 1)
       qr = await firestore
@@ -64,39 +55,40 @@ Future searchh(String nc)async{
           .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
           .where("EtatCommande", isEqualTo: false)
           .where("EtatPanier", isEqualTo: true)
+          //.orderBy('Date')
           .get();
     else if (i == 2)
       qr = await firestore
           .collection("Commande")
           .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
           .where("EtatCommande", isEqualTo: true)
+          //.orderBy('Date')
           .get();
     return qr.docs;
   }
-
   void setentete() {
-    getComm(0,"").then((value) {
+    getComm(0).then((value) {
       setState(() {
         categories[0] = "Toutes (" + value.length.toString() + ")";
       });
     });
-    getComm(1,"").then((value) {
+    getComm(1).then((value) {
       setState(() {
         categories[1] = "En attente (" + value.length.toString() + ")";
       });
     });
-    getComm(2,"").then((value) {
+    getComm(2).then((value) {
       setState(() {
         categories[2] = "Traitées (" + value.length.toString() + ")";
       });
     });
   }
-
   @override
   initState() {
     setentete();
     super.initState();
   }
+  List <dynamic> srch=[];
   String txtSearch="";
   int selectedIndex = 0;
   var firestore = FirebaseFirestore.instance;
@@ -104,7 +96,6 @@ Future searchh(String nc)async{
   int revenueasy = 0;
   List<dynamic> pro1 = [];
   List<dynamic> qtte = [];
-
   /*Future getcommterminee() async {
     List<dynamic> pro = [];
     List<dynamic> list = [];
@@ -128,8 +119,6 @@ Future searchh(String nc)async{
       });
     });
   }*/
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,14 +157,16 @@ Future searchh(String nc)async{
             children: <Widget>[
               SearchBox(
                   val: v,
-                  onChanged: (val) {
+                  onChanged:(val) {
+                    srch.clear();
                     setState(() {
                       getCommm(0).then((value) {
                         categories[0] ="Toutes (" + value.length.toString() + ")";
-                        txtSearch=value;
+                        txtSearch=val;
                       });
                     });
-                  }),
+                  },
+                  ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
                 height: 25,
@@ -188,16 +179,16 @@ Future searchh(String nc)async{
                       setState(() {
                         selectedIndex = index;
                         print(index);
-                        getComm(index,"");
-                        getComm(0,"").then((value) {
+                        getComm(index);
+                        getComm(0).then((value) {
                           categories[0] =
                               "Toutes (" + value.length.toString() + ")";
                         });
-                        getComm(1,"").then((value) {
+                        getComm(1).then((value) {
                           categories[1] =
                               "En attente (" + value.length.toString() + ")";
                         });
-                        getComm(2,"").then((value) {
+                        getComm(2).then((value) {
                           categories[2] =
                               "Traitées (" + value.length.toString() + ")";
                         });
@@ -244,7 +235,7 @@ Future searchh(String nc)async{
                       ),
                     ),
                     StreamBuilder(
-                      stream: getComm(selectedIndex,txtSearch).asStream(),
+                      stream: getComm(selectedIndex).asStream(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return CircularProgressIndicator(
@@ -290,7 +281,7 @@ Future searchh(String nc)async{
   }
 }
 
-AppBar buildAppBar(BuildContext context, int a, int b) {
+/*AppBar buildAppBar(BuildContext context, int a, int b) {
   return AppBar(
     elevation: 0,
     centerTitle: false,
@@ -321,4 +312,4 @@ AppBar buildAppBar(BuildContext context, int a, int b) {
       ),
     ],
   );
-}
+}*/

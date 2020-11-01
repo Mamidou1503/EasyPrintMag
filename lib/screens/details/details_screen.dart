@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_app/constants.dart';
-
 import 'components/body.dart';
-
 class DetailsScreen extends StatefulWidget {
   final List<dynamic> product;
   final String nc, date;

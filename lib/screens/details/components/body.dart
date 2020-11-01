@@ -284,9 +284,7 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
         stateTextWithIcon = ButtonState.loading;
         Future.delayed(Duration(seconds: 1), () {
           setState(() {
-            stateTextWithIcon = Random.secure().nextBool()
-                ? ButtonState.success
-                : ButtonState.fail;
+            stateTextWithIcon = ButtonState.success;
           });
         });
 
