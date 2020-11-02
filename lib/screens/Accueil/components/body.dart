@@ -9,6 +9,9 @@ import 'package:furniture_app/screens/details/details_screen.dart';
 import 'cmd_card.dart';
 
 class Body extends StatefulWidget {
+  final String idm;
+
+  const Body({Key key, this.idm}) : super(key: key);
   @override
   _Boddy createState() => _Boddy();
 }
@@ -18,25 +21,24 @@ class _Boddy extends State<Body> {
   Future getComm(int i ) async {
     QuerySnapshot qr;
     if (i == 0)
-      qr = await firestore.collection("Commande")
-          .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
+      qr = await firestore
+          .where("Idmagasins",isEqualTo: widget.idm)
           .where("EtatPanier", isEqualTo: true)
-          //.orderBy('Date')
+          .orderBy('Date',descending: false)
           .get();
     else if (i == 1)
       qr = await firestore
-          .collection("Commande")
-          .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
+
+          .where("Idmagasins",isEqualTo: widget.idm)
           .where("EtatCommande", isEqualTo: false)
           .where("EtatPanier", isEqualTo: true)
-          //.orderBy('EtatCommande').orderBy('Date')
+          .orderBy('Date')
           .get();
     else if (i == 2)
       qr = await firestore
-          .collection("Commande")
-          .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
+          .where("Idmagasins",isEqualTo:widget.idm)
           .where("EtatCommande", isEqualTo: true)
-          //.orderBy('EtatCommande').orderBy('Date')
+          .orderBy('Date',descending: false)
           .get();
     return qr.docs;
 
@@ -44,58 +46,75 @@ class _Boddy extends State<Body> {
   Future getCommm(int i) async {
     QuerySnapshot qr;
     if (i == 0)
-      qr = await firestore.collection("Commande")
-          .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
+      qr = await firestore
+          .where("Idmagasins",isEqualTo: widget.idm)
           .where("EtatPanier", isEqualTo: true)
-          //.orderBy('Date')
+          .orderBy('Date',descending: false)
           .get();
     else if (i == 1)
       qr = await firestore
-          .collection("Commande")
-          .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
+          .where("Idmagasins",isEqualTo: widget.idm)
           .where("EtatCommande", isEqualTo: false)
           .where("EtatPanier", isEqualTo: true)
-          //.orderBy('Date')
+          .orderBy('Date',descending: true )
           .get();
     else if (i == 2)
       qr = await firestore
-          .collection("Commande")
-          .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
+          .where("Idmagasins",isEqualTo: widget.idm)
           .where("EtatCommande", isEqualTo: true)
-          //.orderBy('Date')
+          .orderBy('Date',descending: false)
           .get();
     return qr.docs;
   }
-  void setentete() {
+  void setentete() async{
     getComm(0).then((value) {
       setState(() {
-        categories[0] = "Toutes (" + value.length.toString() + ")";
+        categories[0] = "Toutes(" + value.length.toString() + ")";
       });
     });
     getComm(1).then((value) {
       setState(() {
-        categories[1] = "En attente (" + value.length.toString() + ")";
+        categories[1] = "En attente(" + value.length.toString() + ")";
       });
     });
     getComm(2).then((value) {
       setState(() {
-        categories[2] = "Traitées (" + value.length.toString() + ")";
+        categories[2] = "Traitées(" +  value.length.toString() + ")";
       });
     });
+
+
   }
+  void revenu()async{
+    list1=[];
+    cmdTrait=0;
+    await firestore.where("Idmagasins",isEqualTo: widget.idm)
+        .where("EtatCommande", isEqualTo: true)
+        .snapshots()
+        .listen((QuerySnapshot querySnapshot) {
+         querySnapshot.docs.forEach((element) {
+        list1=element.data()['Idcours'];
+        for(int i=0;i<list1.length;i++){
+          cmdTrait=cmdTrait+ int.parse(list1[i].toString().split(",")[1]);
+        }
+      });
+
+    });
+}
   @override
   initState() {
+    list1.clear();
     setentete();
+    revenu();
     super.initState();
   }
-  List <dynamic> srch=[];
+  List <dynamic> list1=[];
+  int cmdTrait;
+  //int revenueasy;
   String txtSearch="";
   int selectedIndex = 0;
-  var firestore = FirebaseFirestore.instance;
-  int revenumagasin = 0;
-  int revenueasy = 0;
-  List<dynamic> pro1 = [];
-  List<dynamic> qtte = [];
+  var firestore = FirebaseFirestore.instance.collection("Commande");
+
   /*Future getcommterminee() async {
     List<dynamic> pro = [];
     List<dynamic> list = [];
@@ -121,6 +140,10 @@ class _Boddy extends State<Body> {
   }*/
   @override
   Widget build(BuildContext context) {
+    new Future.delayed(const Duration(seconds: 3));
+    print(list1);
+    print(cmdTrait*5);
+
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
@@ -134,8 +157,7 @@ class _Boddy extends State<Body> {
           IconButton(
             icon: Image.asset("assets/images/money.png"),
             onPressed: () async {
-              //getlistofcourses();
-              await new Future.delayed(const Duration(seconds: 2));
+              await new Future.delayed(const Duration(seconds: 1));
               showDialog(
                   context: context,
                   builder: (BuildContext context) => FancyDialog(
@@ -144,7 +166,7 @@ class _Boddy extends State<Body> {
                         gifPath: "assets/images/icons8-comptabilité-80.png",
                         title: "Revenu hébdomadaire",
                         descreption: "Easy Solution: " +
-                            this.revenueasy.toString() +
+                            (this.cmdTrait*5).toString() +
                             " D.A.",
                       ));
             },
@@ -158,7 +180,6 @@ class _Boddy extends State<Body> {
               SearchBox(
                   val: v,
                   onChanged:(val) {
-                    srch.clear();
                     setState(() {
                       getCommm(0).then((value) {
                         categories[0] ="Toutes (" + value.length.toString() + ")";
@@ -168,8 +189,8 @@ class _Boddy extends State<Body> {
                   },
                   ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
-                height: 25,
+                margin:EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
+                height: 30,
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
@@ -182,15 +203,15 @@ class _Boddy extends State<Body> {
                         getComm(index);
                         getComm(0).then((value) {
                           categories[0] =
-                              "Toutes (" + value.length.toString() + ")";
+                              "Toutes(" + value.length.toString() + ")";
                         });
                         getComm(1).then((value) {
                           categories[1] =
-                              "En attente (" + value.length.toString() + ")";
+                              "En attente(" + value.length.toString() + ")";
                         });
                         getComm(2).then((value) {
                           categories[2] =
-                              "Traitées (" + value.length.toString() + ")";
+                              "Traitées(" + value.length.toString() + ")";
                         });
                       });
                     },
