@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   progress_state_button: ^1.0.1
+  shared_preferences: ^0.5.6+3
   fancy_dialog: ^1.0.1
   firebase_core: ^0.5.0
   cloud_firestore:
