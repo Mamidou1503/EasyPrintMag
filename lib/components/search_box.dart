@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:furniture_app/screens/Accueil/components/cmd_card.dart';
-import 'package:furniture_app/screens/details/details_screen.dart';
 
 import '../constants.dart';
 
@@ -18,7 +15,6 @@ class SearchBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
         margin: EdgeInsets.all(kDefaultPadding),
         padding: EdgeInsets.symmetric(
@@ -47,13 +43,13 @@ class SearchBox extends StatelessWidget {
               ),
             ),
             IconButton(
-                color: Colors.white,
-                icon: Icon(
-                  Icons.search,
-                  color: kPrimaryColor,
-                ),
-                )
-               ],
+              color: Colors.white,
+              icon: Icon(
+                Icons.search,
+                color: kPrimaryColor,
+              ),
+            )
+          ],
         )
 
         /*TextField(
