@@ -52,6 +52,7 @@ class SearchBox extends StatelessWidget {
                   Icons.search,
                   color: kPrimaryColor,
                 ),
+              onPressed: (){},
                 )
                ],
         )

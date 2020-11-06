@@ -177,7 +177,7 @@ class _Boddy extends State<Body> {
           bottom: false,
           child: Column(
             children: <Widget>[
-              SearchBox(
+            SearchBox(
                   val: v,
                   onChanged:(val) {
                     setState(() {
