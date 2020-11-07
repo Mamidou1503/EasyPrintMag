@@ -27,18 +27,17 @@ class Infpg extends StatelessWidget {
 class InfoPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new _State();
-
-
 }
 
 class _State extends State<InfoPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final CollectionReference magCollection = FirebaseFirestore.instance.collection("Magasin");
+  final CollectionReference magCollection =
+      FirebaseFirestore.instance.collection("Magasin");
 
-@override
+  @override
   Widget build(BuildContext context) {
-  final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: kTextColor,
@@ -66,7 +65,6 @@ class _State extends State<InfoPage> {
                       border: OutlineInputBorder(),
                       labelText: 'Nom',
                     ),
-
                   ),
                 ),
                 Container(
@@ -78,38 +76,40 @@ class _State extends State<InfoPage> {
                       border: OutlineInputBorder(),
                       labelText: 'Prenom',
                     ),
-
                   ),
                 ),
-
                 Container(
-                    height: 50,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    height: 60,
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: RaisedButton(
                         textColor: Colors.white,
                         color: kTextColor,
                         child: Text('Confirmer'),
                         onPressed: () async {
-
-                          final SharedPreferences prefs =await SharedPreferences.getInstance();
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
                           await magCollection
-                          .where("Magasin",isEqualTo: nameController.text)
-                          .where("pass",isEqualTo: passwordController.text).get().then((value) =>
-                          {
-                            value.docs.forEach((element) {
-                              if(element.exists){
-                              String idd=element.id.toString();
-                              prefs.setBool('status',true);
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>MyApp(idmag: idd,)),);
-                              }
-
-                            }),
-                          if (value.docs.isEmpty)
-                          dialogg("Nom ou mot de passe incorrecte.")
-                          });
-                        }
-                        )
-                ),
+                              .where("Magasin", isEqualTo: nameController.text)
+                              .where("pass", isEqualTo: passwordController.text)
+                              .get()
+                              .then((value) => {
+                                    value.docs.forEach((element) {
+                                      if (element.exists) {
+                                        String idd = element.id.toString();
+                                        prefs.setBool('status', true);
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => MyApp(
+                                                    idmag: idd,
+                                                  )),
+                                        );
+                                      }
+                                    }),
+                                    if (value.docs.isEmpty)
+                                      dialogg("Nom ou mot de passe incorrecte.")
+                                  });
+                        })),
                 Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.fromLTRB(5, 20, 5, 20),

@@ -16,10 +16,15 @@ class SearchBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.all(kDefaultPadding),
+        margin: EdgeInsets.only(
+          top: kDefaultPadding / 4,
+          bottom: kDefaultPadding / 2,
+          left: kDefaultPadding / 2,
+          right: kDefaultPadding / 2,
+        ),
         padding: EdgeInsets.symmetric(
           horizontal: kDefaultPadding,
-          vertical: kDefaultPadding / 4, // 5 top and bottom
+          vertical: kDefaultPadding / 10, // 5 top and bottom
         ),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.4),
@@ -34,19 +39,22 @@ class SearchBox extends StatelessWidget {
                 onChanged: onChanged,
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 2),
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
-                  icon: SvgPicture.asset("assets/icons/search.svg"),
+                  //icon: SvgPicture.asset("assets/icons/search.svg"),
                   hintText: 'N° Commande',
                   hintStyle: TextStyle(color: Colors.white),
                 ),
               ),
             ),
             IconButton(
+              alignment: Alignment.centerRight,
               color: Colors.white,
               icon: Icon(
                 Icons.search,
-                color: kPrimaryColor,
+                color: Colors.white,
+                //color: kPrimaryColor,
               ),
             )
           ],

@@ -36,11 +36,11 @@ class _CmdCardState extends State<CmdCard> {
   String nume;
   void getinfos() {
     FirebaseFirestore.instance.collection("Users").doc(id).get().then((value) {
-      setState(() {
-        prenom = value.data()['prenom'];
-        nom = value.data()['Nom'];
-        nume = value.data()['phone'];
-      });
+      //setState(() {
+      prenom = value.data()['prenom'];
+      nom = value.data()['Nom'];
+      nume = value.data()['phone'];
+      //   });
     });
   }
 
@@ -71,7 +71,9 @@ class _CmdCardState extends State<CmdCard> {
               height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
-                color: widget.color == true ? Colors.greenAccent : Colors.redAccent,
+                color: widget.color == true
+                    ? Colors.greenAccent
+                    : Colors.redAccent,
                 boxShadow: [kDefaultShadow],
               ),
               child: Container(

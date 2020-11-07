@@ -15,58 +15,59 @@ class Body extends StatefulWidget {
   @override
   _Boddy createState() => _Boddy();
 }
+
 class _Boddy extends State<Body> {
   String v;
   List categories = ["Toute", "En attente", "Traitées"];
-  Future getComm(int i ) async {
+  Future getComm(int i) async {
     QuerySnapshot qr;
     if (i == 0)
       qr = await firestore
-          .where("Idmagasins",isEqualTo: widget.idm)
+          .where("Idmagasins", isEqualTo: widget.idm)
           .where("EtatPanier", isEqualTo: true)
-          .orderBy('Date',descending: false)
+          .orderBy('Date', descending: false)
           .get();
     else if (i == 1)
       qr = await firestore
-
-          .where("Idmagasins",isEqualTo: widget.idm)
+          .where("Idmagasins", isEqualTo: widget.idm)
           .where("EtatCommande", isEqualTo: false)
           .where("EtatPanier", isEqualTo: true)
           .orderBy('Date')
           .get();
     else if (i == 2)
       qr = await firestore
-          .where("Idmagasins",isEqualTo:widget.idm)
+          .where("Idmagasins", isEqualTo: widget.idm)
           .where("EtatCommande", isEqualTo: true)
-          .orderBy('Date',descending: false)
+          .orderBy('Date', descending: false)
           .get();
     return qr.docs;
-
   }
+
   Future getCommm(int i) async {
     QuerySnapshot qr;
     if (i == 0)
       qr = await firestore
-          .where("Idmagasins",isEqualTo: widget.idm)
+          .where("Idmagasins", isEqualTo: widget.idm)
           .where("EtatPanier", isEqualTo: true)
-          .orderBy('Date',descending: false)
+          .orderBy('Date', descending: false)
           .get();
     else if (i == 1)
       qr = await firestore
-          .where("Idmagasins",isEqualTo: widget.idm)
+          .where("Idmagasins", isEqualTo: widget.idm)
           .where("EtatCommande", isEqualTo: false)
           .where("EtatPanier", isEqualTo: true)
-          .orderBy('Date',descending: true )
+          .orderBy('Date', descending: true)
           .get();
     else if (i == 2)
       qr = await firestore
-          .where("Idmagasins",isEqualTo: widget.idm)
+          .where("Idmagasins", isEqualTo: widget.idm)
           .where("EtatCommande", isEqualTo: true)
-          .orderBy('Date',descending: false)
+          .orderBy('Date', descending: false)
           .get();
     return qr.docs;
   }
-  void setentete() async{
+
+  void setentete() async {
     getComm(0).then((value) {
       setState(() {
         categories[0] = "Toutes(" + value.length.toString() + ")";
@@ -79,28 +80,28 @@ class _Boddy extends State<Body> {
     });
     getComm(2).then((value) {
       setState(() {
-        categories[2] = "Traitées(" +  value.length.toString() + ")";
+        categories[2] = "Traitées(" + value.length.toString() + ")";
       });
     });
-
-
   }
-  void revenu()async{
-    list1=[];
-    cmdTrait=0;
-    await firestore.where("Idmagasins",isEqualTo: widget.idm)
+
+  void revenu() async {
+    list1 = [];
+    cmdTrait = 0;
+    await firestore
+        .where("Idmagasins", isEqualTo: widget.idm)
         .where("EtatCommande", isEqualTo: true)
         .snapshots()
         .listen((QuerySnapshot querySnapshot) {
-         querySnapshot.docs.forEach((element) {
-        list1=element.data()['Idcours'];
-        for(int i=0;i<list1.length;i++){
-          cmdTrait=cmdTrait+ int.parse(list1[i].toString().split(",")[1]);
+      querySnapshot.docs.forEach((element) {
+        list1 = element.data()['Idcours'];
+        for (int i = 0; i < list1.length; i++) {
+          cmdTrait = cmdTrait + int.parse(list1[i].toString().split(",")[1]);
         }
       });
-
     });
-}
+  }
+
   @override
   initState() {
     list1.clear();
@@ -108,10 +109,11 @@ class _Boddy extends State<Body> {
     revenu();
     super.initState();
   }
-  List <dynamic> list1=[];
+
+  List<dynamic> list1 = [];
   int cmdTrait;
   //int revenueasy;
-  String txtSearch="";
+  String txtSearch = "";
   int selectedIndex = 0;
   var firestore = FirebaseFirestore.instance.collection("Commande");
 
@@ -142,7 +144,7 @@ class _Boddy extends State<Body> {
   Widget build(BuildContext context) {
     new Future.delayed(const Duration(seconds: 3));
     print(list1);
-    print(cmdTrait*5);
+    print(cmdTrait * 5);
 
     return Scaffold(
       backgroundColor: kPrimaryColor,
@@ -151,7 +153,7 @@ class _Boddy extends State<Body> {
         centerTitle: false,
         title: Text(
           'Bienvenue',
-          style: TextStyle(fontFamily: 'teen', fontSize: 28),
+          style: TextStyle(fontFamily: 'teen', fontSize: 26),
         ),
         actions: <Widget>[
           IconButton(
@@ -166,7 +168,7 @@ class _Boddy extends State<Body> {
                         gifPath: "assets/images/icons8-comptabilité-80.png",
                         title: "Revenu hébdomadaire",
                         descreption: "Easy Solution: " +
-                            (this.cmdTrait*5).toString() +
+                            (this.cmdTrait * 5).toString() +
                             " D.A.",
                       ));
             },
@@ -177,22 +179,23 @@ class _Boddy extends State<Body> {
           bottom: false,
           child: Column(
             children: <Widget>[
-            SearchBox(
-                  val: v,
-                  onChanged:(val) {
-                    setState(() {
-                      getCommm(0).then((value) {
-                        categories[0] ="Toutes (" + value.length.toString() + ")";
-                        txtSearch=val;
-                      });
+              SearchBox(
+                val: v,
+                onChanged: (val) {
+                  setState(() {
+                    getCommm(0).then((value) {
+                      categories[0] =
+                          "Toutes (" + value.length.toString() + ")";
+                      txtSearch = val;
                     });
-                  },
-                  ),
+                  });
+                },
+              ),
               Container(
-                margin:EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
+                margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
                 height: 30,
                 child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
+                  //physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
                   itemBuilder: (context, index) => GestureDetector(
@@ -221,7 +224,7 @@ class _Boddy extends State<Body> {
                         left: kDefaultPadding / 4,
                         // At end item it add extra 20 right  padding
                         right: index == categories.length - 1
-                            ? kDefaultPadding
+                            ? kDefaultPadding / 4
                             : 0,
                       ),
                       padding:
@@ -246,7 +249,7 @@ class _Boddy extends State<Body> {
                   children: <Widget>[
                     // Our background
                     Container(
-                      margin: EdgeInsets.only(top: 70),
+                      margin: EdgeInsets.only(top: 60),
                       decoration: BoxDecoration(
                         color: kBackgroundColor,
                         borderRadius: BorderRadius.only(
@@ -259,9 +262,11 @@ class _Boddy extends State<Body> {
                       stream: getComm(selectedIndex).asStream(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.red),
-                            strokeWidth: 3.0,
+                          return Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.red),
+                              strokeWidth: 3.0,
+                            ),
                           );
                         } else {
                           return ListView.builder(
@@ -269,21 +274,26 @@ class _Boddy extends State<Body> {
                             itemCount: snapshot.data.length,
                             itemBuilder: (_, index) => CmdCard(
                               itemIndex: index,
-                              id: snapshot.data[index].data()["NumC"].toString(),
+                              id: snapshot.data[index]
+                                  .data()["NumC"]
+                                  .toString(),
                               nom: snapshot.data[index].data()["IdEtudiant"],
                               date: snapshot.data[index].data()["Date"],
-                              qte: snapshot.data[index].data()["Idcours"].length,
-                              color: snapshot.data[index].data()["EtatCommande"],
+                              qte:
+                                  snapshot.data[index].data()["Idcours"].length,
+                              color:
+                                  snapshot.data[index].data()["EtatCommande"],
                               press: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DetailsScreen(
-                                      nc: snapshot.data[index].data()["NumC"]
+                                      nc: snapshot.data[index]
+                                          .data()["NumC"]
                                           .toString(),
                                       date: snapshot.data[index].data()["Date"],
-                                      product:
-                                          snapshot.data[index].data()["Idcours"],
+                                      product: snapshot.data[index]
+                                          .data()["Idcours"],
                                     ),
                                   ),
                                 );
