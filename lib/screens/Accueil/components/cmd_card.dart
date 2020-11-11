@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../../../constants.dart';
 
 class CmdCard extends StatefulWidget {
@@ -102,40 +102,40 @@ class _CmdCardState extends State<CmdCard> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
                       child: Text(
-                        "N° Commande: " + widget.id.toString(),
-                        style: TextStyle(fontFamily: 'teen'),
+                        "N° Commande:   " + widget.id.toString(),
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
                       child: Text(
-                        "Commandé le: " + widget.date.toString(),
-                        style: TextStyle(fontFamily: 'teen'),
+                        "Commandé le:   " + widget.date.toString(),
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
                       child: Text(
-                        "Nom: " + nom.toString(),
-                        style: TextStyle(fontFamily: 'teen'),
+                        "Nom:   " + nom.toString(),
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
                       child: Text(
-                        "Prénom: " + prenom.toString(),
-                        style: TextStyle(fontFamily: 'teen'),
+                        "Prénom:   " + prenom.toString(),
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
                       child: Text(
-                        "Num telephone: " + nume.toString(),
-                        style: TextStyle(fontFamily: 'teen'),
+                        "Num telephone:   " + nume.toString(),
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Spacer(),
@@ -153,8 +153,7 @@ class _CmdCardState extends State<CmdCard> {
                       ),
                       child: Text(
                         "${widget.qte.toString()}" + " Cours",
-                        style:
-                            TextStyle(fontFamily: 'teen', color: Colors.white),
+                        style: GoogleFonts.montserrat(color: Colors.white),
                       ),
                     ),
                   ],

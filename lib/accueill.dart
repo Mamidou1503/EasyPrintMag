@@ -1,19 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/constants.dart';
 import 'package:furniture_app/main.dart';
-import 'package:furniture_app/screens/Accueil/components/body.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/*void main()async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await  Firebase.initializeApp();
-  final SharedPreferences prefs =await SharedPreferences.getInstance();
-  bool statuss = prefs.getBool('status');
-  runApp(statuss == null ? MaterialApp(home:InfoPage()) : MaterialApp(home: MyApp()));
-}*/
 class Infpg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -37,11 +28,11 @@ class _State extends State<InfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    //final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: kTextColor,
-          title: Text('Authentification '),
+          title: Text('Authentification ', style: GoogleFonts.pacifico()),
         ),
         body: Padding(
             padding: EdgeInsets.all(10),
@@ -52,7 +43,7 @@ class _State extends State<InfoPage> {
                     padding: EdgeInsets.all(10),
                     child: Text(
                       'EasyPrint',
-                      style: TextStyle(
+                      style: GoogleFonts.pacifico(
                           color: kTextColor,
                           fontWeight: FontWeight.w500,
                           fontSize: 30),
@@ -63,7 +54,7 @@ class _State extends State<InfoPage> {
                     controller: nameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Nom',
+                      labelText: 'Imprimerie :',
                     ),
                   ),
                 ),
@@ -74,7 +65,7 @@ class _State extends State<InfoPage> {
                     controller: passwordController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Prenom',
+                      labelText: 'Mot de passe :',
                     ),
                   ),
                 ),
@@ -84,7 +75,7 @@ class _State extends State<InfoPage> {
                     child: RaisedButton(
                         textColor: Colors.white,
                         color: kTextColor,
-                        child: Text('Confirmer'),
+                        child: Text('Se-Connecter.'),
                         onPressed: () async {
                           final SharedPreferences prefs =
                               await SharedPreferences.getInstance();

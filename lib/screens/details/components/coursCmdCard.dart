@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
@@ -73,8 +73,8 @@ class CoursCmdCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
                       child: Text(
-                        "Module : " + module+" "+annee,
-                        style: TextStyle(fontFamily: 'teen'),
+                        "Module : " + module + " " + annee,
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
@@ -82,7 +82,7 @@ class CoursCmdCard extends StatelessWidget {
                           horizontal: kDefaultPadding),
                       child: Text(
                         "Cours : " + cours,
-                        style: TextStyle(fontFamily: 'teen'),
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
@@ -90,7 +90,7 @@ class CoursCmdCard extends StatelessWidget {
                           horizontal: kDefaultPadding),
                       child: Text(
                         "Enseignant : " + enseignant,
-                        style: TextStyle(fontFamily: 'teen'),
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
@@ -98,7 +98,7 @@ class CoursCmdCard extends StatelessWidget {
                           horizontal: kDefaultPadding),
                       child: Text(
                         "Nombre de copie : " + copie,
-                        style: TextStyle(fontFamily: 'teen'),
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                     // it use the available space
@@ -117,8 +117,7 @@ class CoursCmdCard extends StatelessWidget {
                       ),
                       child: Text(
                         "$prix" " D.A.",
-                        style:
-                            TextStyle(fontFamily: 'teen', color: Colors.white),
+                        style: GoogleFonts.montserrat(color: Colors.white),
                       ),
                     ),
                   ],

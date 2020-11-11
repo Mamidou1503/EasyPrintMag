@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fancy_dialog/FancyAnimation.dart';
 import 'package:fancy_dialog/fancy_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:furniture_app/components/search_box.dart';
 import 'package:furniture_app/constants.dart';
 import 'package:furniture_app/screens/details/details_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'cmd_card.dart';
 
 class Body extends StatefulWidget {
@@ -88,7 +88,7 @@ class _Boddy extends State<Body> {
   void revenu() async {
     list1 = [];
     cmdTrait = 0;
-    await firestore
+    firestore
         .where("Idmagasins", isEqualTo: widget.idm)
         .where("EtatCommande", isEqualTo: true)
         .snapshots()
@@ -112,40 +112,13 @@ class _Boddy extends State<Body> {
 
   List<dynamic> list1 = [];
   int cmdTrait;
-  //int revenueasy;
   String txtSearch = "";
   int selectedIndex = 0;
   var firestore = FirebaseFirestore.instance.collection("Commande");
 
-  /*Future getcommterminee() async {
-    List<dynamic> pro = [];
-    List<dynamic> list = [];
-    FirebaseFirestore.instance
-        .collection("Commande")
-        .where("EtatCommande", isEqualTo: false)
-        .where("EtatPanier",isEqualTo: true)
-        .where("Idmagasins",isEqualTo: "micG8nx1YZOtXnN1MZK6")
-        .snapshots()
-        .listen((QuerySnapshot querySnapshot) {
-      pro1.clear();
-      querySnapshot.documents.forEach((document) {
-        list = document.data()['Idcours'];
-        int i = 0;
-        while (i < list.length) {
-          pro1.add(list[i].toString().split(',')[0]);
-          qtte.add(list[i].toString().split(',')[1]);
-
-          i++;
-        }
-      });
-    });
-  }*/
   @override
   Widget build(BuildContext context) {
     new Future.delayed(const Duration(seconds: 3));
-    print(list1);
-    print(cmdTrait * 5);
-
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
@@ -153,7 +126,7 @@ class _Boddy extends State<Body> {
         centerTitle: false,
         title: Text(
           'Bienvenue',
-          style: TextStyle(fontFamily: 'teen', fontSize: 26),
+          style: GoogleFonts.pacifico(fontSize: 26, color: Colors.white),
         ),
         actions: <Widget>[
           IconButton(
@@ -179,18 +152,6 @@ class _Boddy extends State<Body> {
           bottom: false,
           child: Column(
             children: <Widget>[
-              SearchBox(
-                val: v,
-                onChanged: (val) {
-                  setState(() {
-                    getCommm(0).then((value) {
-                      categories[0] =
-                          "Toutes (" + value.length.toString() + ")";
-                      txtSearch = val;
-                    });
-                  });
-                },
-              ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
                 height: 30,

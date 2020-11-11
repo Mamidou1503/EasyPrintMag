@@ -4,7 +4,6 @@ import 'package:furniture_app/constants.dart';
 import 'package:furniture_app/screens/Accueil/components/body.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'accueill.dart';
 
 void main()async {

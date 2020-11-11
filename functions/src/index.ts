@@ -18,8 +18,8 @@ export const sendToken=functions.firestore
    } 
    const payload : admin.messaging.MessagingPayload={
        notification : {
-           title :'Commande wejdet',
-           body:'arwaho ediw wre9ikom',
+           title :'Easy-Print',
+           body:'Votre commande vous attends.',
            clickAction:'FLUTTER_NOTIFICATION_CLICK',
        },
    } ;

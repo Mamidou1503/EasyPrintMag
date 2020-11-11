@@ -1,14 +1,14 @@
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/constants.dart';
 import 'package:furniture_app/screens/details/components/coursCmdCard.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 
 class Body extends StatefulWidget {
   final List<dynamic> product;
-  final List<dynamic>  cours;
+  final List<dynamic> cours;
   final String nc, date;
   const Body({Key key, this.product, this.cours, this.nc, this.date})
       : super(key: key);
@@ -49,7 +49,6 @@ class _Boddyy extends State<Body> {
 
   @override
   void initState() {
-    // TODO: implement initState
     setlist();
     settot();
     super.initState();
@@ -81,7 +80,7 @@ class _Boddyy extends State<Body> {
                       horizontal: kDefaultPadding / 3),
                   child: Text(
                     "N° Commande: " + widget.nc,
-                    style: TextStyle(fontFamily: 'teen'),
+                    style: GoogleFonts.montserrat(),
 
                     //style: Theme.of(context).textTheme.headline6,
                   ),
@@ -91,7 +90,7 @@ class _Boddyy extends State<Body> {
                       horizontal: kDefaultPadding / 3),
                   child: Text(
                     "Commandé le: " + widget.date,
-                    style: TextStyle(fontFamily: 'teen'),
+                    style: GoogleFonts.montserrat(),
 
                     //style: Theme.of(context).textTheme.headline6,
                   ),
@@ -138,12 +137,11 @@ class _Boddyy extends State<Body> {
                         annee: widget.product[index].toString().split(',')[4],
                         prix: (int.parse((widget.product[index]
                                     .toString()
-                                    .split(',')[1])) * 5)
+                                    .split(',')[1])) *
+                                5)
                             .toString(),
-                        copie: widget.product[index].toString().split(',')[2],
+                        copie: widget.product[index].toString().split(',')[1],
                       );
-                      /* else
-                                return SizedBox.shrink();*/
                     }),
               ),
             ],
@@ -152,10 +150,7 @@ class _Boddyy extends State<Body> {
           Container(
             height: size.height * 0.12,
             child: ProgressButtonHomePage(
-              title: "Valider",
-              ncc: widget.nc,
-              dt:widget.date
-            ),
+                title: "Valider", ncc: widget.nc, dt: widget.date),
           )
         ],
       ),
@@ -164,7 +159,8 @@ class _Boddyy extends State<Body> {
 }
 
 class ProgressButtonHomePage extends StatefulWidget {
-  ProgressButtonHomePage({Key key, this.title,this.ncc,this.dt}) : super(key: key);
+  ProgressButtonHomePage({Key key, this.title, this.ncc, this.dt})
+      : super(key: key);
 
   final String title;
   final String ncc;
@@ -231,21 +227,21 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
           color: Colors.green.shade400)
     }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
   }
+
   Future validerpanier(String numc) async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection('Commande')
         .where("NumC", isEqualTo: numc)
-        .where("Date",isEqualTo:widget.dt)
+        .where("Date", isEqualTo: widget.dt)
         .get();
 
     result.docs.forEach((element) {
       element.reference.update({
         'EtatCommande': true,
-
       });
-
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(
