@@ -32,7 +32,7 @@ class _Boddyy extends State<Body> {
     }
   }
 
-  List<dynamic> cr;
+  //List<dynamic> cr;
   var firestore = FirebaseFirestore.instance;
 
   void settot() {
@@ -64,7 +64,10 @@ class _Boddyy extends State<Body> {
         children: <Widget>[
           Container(
             width: double.infinity,
-            //padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+            padding: EdgeInsets.only(
+                left: kDefaultPadding,
+                top: kDefaultPadding / 6,
+                bottom: kDefaultPadding / 6),
             decoration: BoxDecoration(
               color: kBackgroundColor,
               borderRadius: BorderRadius.only(
@@ -76,31 +79,36 @@ class _Boddyy extends State<Body> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding / 3),
+                  padding: const EdgeInsets.only(left: kDefaultPadding / 3),
                   child: Text(
                     "N° Commande: " + widget.nc,
-                    style: GoogleFonts.montserrat(),
+                    style: GoogleFonts.montserrat(fontSize: 14),
 
                     //style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding / 3),
+                  padding: const EdgeInsets.only(
+                    left: kDefaultPadding / 3,
+                  ),
                   child: Text(
                     "Commandé le: " + widget.date,
-                    style: GoogleFonts.montserrat(),
+                    style: GoogleFonts.montserrat(fontSize: 14),
 
                     //style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding / 3),
+                  padding: const EdgeInsets.only(
+                    left: kDefaultPadding / 3,
+                  ),
                   child: Text(
-                    "Prix total: " + tot.toString() + "D.A",
-                    style: TextStyle(fontFamily: 'teen', color: kPrimaryColor),
+                    "Prix total: " + tot.toString() + " D.A",
+                    style: TextStyle(
+                      fontFamily: 'teen',
+                      color: kPrimaryColor,
+                      fontSize: 14,
+                    ),
 
                     //style: Theme.of(context).textTheme.headline6,
                   ),
@@ -150,7 +158,11 @@ class _Boddyy extends State<Body> {
           Container(
             height: size.height * 0.12,
             child: ProgressButtonHomePage(
-                title: "Valider", ncc: widget.nc, dt: widget.date),
+              title: "Valider",
+              ncc: widget.nc,
+              dt: widget.date,
+              boddyy: this,
+            ),
           )
         ],
       ),
@@ -159,12 +171,18 @@ class _Boddyy extends State<Body> {
 }
 
 class ProgressButtonHomePage extends StatefulWidget {
-  ProgressButtonHomePage({Key key, this.title, this.ncc, this.dt})
-      : super(key: key);
+  ProgressButtonHomePage({
+    Key key,
+    this.title,
+    this.ncc,
+    this.dt,
+    this.boddyy,
+  }) : super(key: key);
 
   final String title;
   final String ncc;
   final String dt;
+  final _Boddyy boddyy;
   @override
   _ProgressButtonHomePageState createState() => _ProgressButtonHomePageState();
 }
@@ -235,11 +253,29 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
         .where("Date", isEqualTo: widget.dt)
         .get();
 
+    bool validation = true;
     result.docs.forEach((element) {
-      element.reference.update({
-        'EtatCommande': true,
-      });
+      element.reference
+          .update({
+            'EtatCommande': true,
+          })
+          .then((value) {})
+          .catchError((e) {
+            print(e);
+            validation = false;
+          });
     });
+    Future.delayed(Duration(seconds: 2), () {
+      if (validation) {
+        Navigator.pop(
+          context,
+        );
+      }
+    });
+
+    // widget.boddyy.setState(() {
+    //   widget.boddyy.product = [];
+    // });
   }
 
   @override
@@ -279,9 +315,11 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
         validerpanier(widget.ncc);
         stateTextWithIcon = ButtonState.loading;
         Future.delayed(Duration(seconds: 1), () {
-          setState(() {
-            stateTextWithIcon = ButtonState.success;
-          });
+          if (mounted) {
+            setState(() {
+              stateTextWithIcon = ButtonState.success;
+            });
+          }
         });
 
         break;

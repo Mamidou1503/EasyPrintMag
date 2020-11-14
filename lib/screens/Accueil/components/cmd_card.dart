@@ -40,11 +40,15 @@ class _CmdCardState extends State<CmdCard> {
         .doc(id)
         .get()
         .then((value) {
-      setState(() {
-        prenom = value.data()['prenom'];
-        nom = value.data()['Nom'];
-        nume = value.data()['phone'];
-      });
+      if (mounted) {
+        setState(() {
+          prenom = value.data()['prenom'];
+          nom = value.data()['Nom'];
+          nume = value.data()['phone'];
+        });
+      } else {
+        return;
+      }
     });
   }
 

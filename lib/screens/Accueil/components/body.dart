@@ -19,6 +19,17 @@ class Body extends StatefulWidget {
 class _Boddy extends State<Body> {
   String v;
   List categories = ["Toute", "En attente", "Traitées"];
+
+  FutureOr onGoBack(dynamic value) {
+    if (mounted) {
+      setState(() {
+        list1.clear();
+        setentete();
+        revenu();
+      });
+    }
+  }
+
   Future getComm(int i) async {
     QuerySnapshot qr;
     if (i == 0)
@@ -69,26 +80,32 @@ class _Boddy extends State<Body> {
 
   void setentete() async {
     getComm(0).then((value) {
-      setState(() {
-        categories[0] = "Toutes(" + value.length.toString() + ")";
-      });
+      if (mounted) {
+        setState(() {
+          categories[0] = "Toutes(" + value.length.toString() + ")";
+        });
+      }
     });
     getComm(1).then((value) {
-      setState(() {
-        categories[1] = "En attente(" + value.length.toString() + ")";
-      });
+      if (mounted) {
+        setState(() {
+          categories[1] = "En attente(" + value.length.toString() + ")";
+        });
+      }
     });
     getComm(2).then((value) {
-      setState(() {
-        categories[2] = "Traitées(" + value.length.toString() + ")";
-      });
+      if (mounted) {
+        setState(() {
+          categories[2] = "Traitées(" + value.length.toString() + ")";
+        });
+      }
     });
   }
 
   void revenu() async {
     list1 = [];
     cmdTrait = 0;
-    await firestore
+    firestore
         .where("Idmagasins", isEqualTo: widget.idm)
         .where("EtatCommande", isEqualTo: true)
         .snapshots()
@@ -257,7 +274,7 @@ class _Boddy extends State<Body> {
                                           .data()["Idcours"],
                                     ),
                                   ),
-                                );
+                                ).then(onGoBack);
                               },
                             ),
                           );
