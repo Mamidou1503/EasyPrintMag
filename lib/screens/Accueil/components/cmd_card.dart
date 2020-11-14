@@ -31,16 +31,20 @@ class _CmdCardState extends State<CmdCard> {
   _CmdCardState(this.id);
   final String id;
 
-  String nom;
-  String prenom;
-  String nume;
-  void getinfos() {
-    FirebaseFirestore.instance.collection("Users").doc(id).get().then((value) {
-      //setState(() {
-      prenom = value.data()['prenom'];
-      nom = value.data()['Nom'];
-      nume = value.data()['phone'];
-      //   });
+  String nom = "";
+  String prenom = "";
+  String nume = "";
+  void getinfos() async {
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(id)
+        .get()
+        .then((value) {
+      setState(() {
+        prenom = value.data()['prenom'];
+        nom = value.data()['Nom'];
+        nume = value.data()['phone'];
+      });
     });
   }
 

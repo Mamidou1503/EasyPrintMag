@@ -88,6 +88,7 @@ class _State extends State<InfoPage> {
                                       if (element.exists) {
                                         String idd = element.id.toString();
                                         prefs.setBool('status', true);
+                                        prefs.setString('idd', idd);
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(

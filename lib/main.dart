@@ -6,14 +6,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'accueill.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final SharedPreferences prefs =await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   bool statuss = prefs.getBool('status');
+
   String idd = prefs.getString('idd');
-  await  Firebase.initializeApp();
-  runApp(statuss == null ?  Infpg() : MaterialApp(home: MyApp(idmag:idd)));
+  await Firebase.initializeApp();
+  runApp(statuss == null ? Infpg() : MaterialApp(home: MyApp(idmag: idd)));
 }
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   final String idmag;

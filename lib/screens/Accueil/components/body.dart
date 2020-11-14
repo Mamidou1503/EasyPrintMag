@@ -88,7 +88,7 @@ class _Boddy extends State<Body> {
   void revenu() async {
     list1 = [];
     cmdTrait = 0;
-    firestore
+    await firestore
         .where("Idmagasins", isEqualTo: widget.idm)
         .where("EtatCommande", isEqualTo: true)
         .snapshots()
