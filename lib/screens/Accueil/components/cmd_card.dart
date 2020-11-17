@@ -9,41 +9,37 @@ class CmdCard extends StatefulWidget {
       this.itemIndex,
       this.id,
       this.qte,
-      this.nom,
-      this.prenom,
+      this.idetd,
       this.press,
       this.date,
       this.color})
       : super(key: key);
 
   final int itemIndex;
-  final String id;
+  final String id,idetd, date;
   final int qte;
   final bool color;
-  final String nom, prenom, date;
   final Function press;
 
   @override
-  _CmdCardState createState() => _CmdCardState(this.nom);
+  _CmdCardState createState() => _CmdCardState();
 }
 
 class _CmdCardState extends State<CmdCard> {
-  _CmdCardState(this.id);
-  final String id;
-
+  _CmdCardState();
   String nom = "";
   String prenom = "";
   String nume = "";
   void getinfos() async {
     await FirebaseFirestore.instance
         .collection("Users")
-        .doc(id)
+        .doc(widget.idetd)
         .get()
         .then((value) {
       if (mounted) {
         setState(() {
-          prenom = value.data()['prenom'];
           nom = value.data()['Nom'];
+          prenom = value.data()['prenom'];
           nume = value.data()['phone'];
         });
       } else {
@@ -62,6 +58,7 @@ class _CmdCardState extends State<CmdCard> {
   Widget build(BuildContext context) {
     // It  will provide us total height and width of our screen
     Size size = MediaQuery.of(context).size;
+    getinfos();
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: kDefaultPadding,

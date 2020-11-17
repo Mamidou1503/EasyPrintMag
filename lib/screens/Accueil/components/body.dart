@@ -19,6 +19,17 @@ class Body extends StatefulWidget {
 class _Boddy extends State<Body> {
   String v;
   List categories = ["Toute", "En attente", "Traitées"];
+  final CollectionReference commCollection = FirebaseFirestore.instance.collection("Commande");
+  final DateTime now = DateTime.now();
+
+  void deleteComm(String dt) {
+    commCollection.where('Date',isLessThan:dt ).get()
+        .then((value) => {
+      for(DocumentSnapshot dc in value.docs){
+        dc.reference.delete(),
+      }
+    });
+  }
 
   FutureOr onGoBack(dynamic value) {
     if (mounted) {
@@ -119,8 +130,10 @@ class _Boddy extends State<Body> {
     });
   }
 
+
   @override
   initState() {
+
     list1.clear();
     setentete();
     revenu();
@@ -135,6 +148,9 @@ class _Boddy extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    String dt= now.year.toString()+"-"+now.month.toString()+"-"+(now.day-7).toString();
+    print(dt.toString());
+    deleteComm(dt);
     new Future.delayed(const Duration(seconds: 3));
     return Scaffold(
       backgroundColor: kPrimaryColor,
@@ -255,7 +271,7 @@ class _Boddy extends State<Body> {
                               id: snapshot.data[index]
                                   .data()["NumC"]
                                   .toString(),
-                              nom: snapshot.data[index].data()["IdEtudiant"],
+                              idetd: snapshot.data[index].data()["IdEtudiant"],
                               date: snapshot.data[index].data()["Date"],
                               qte:
                                   snapshot.data[index].data()["Idcours"].length,
@@ -289,36 +305,3 @@ class _Boddy extends State<Body> {
     );
   }
 }
-
-/*AppBar buildAppBar(BuildContext context, int a, int b) {
-  return AppBar(
-    elevation: 0,
-    centerTitle: false,
-    title: Text(
-      'Bienvenue',
-      style: TextStyle(fontFamily: 'teen', fontSize: 28),
-    ),
-    actions: <Widget>[
-
-      IconButton(
-        icon: Image.asset("assets/images/money.png"),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => FancyDialog(
-                    okColor: kBlueColor,
-                    animationType: FancyAnimation.TOP_BOTTOM,
-                    gifPath: "assets/images/icons8-comptabilité-80.png",
-                    title: "Revenu hébdomadaire",
-                    descreption: "Imprimerie: " +
-                        a.toString() +
-                        " D.A.\n" +
-                        "Easy Solution: " +
-                        b.toString() +
-                        " D.A.",
-                  ));
-        },
-      ),
-    ],
-  );
-}*/
