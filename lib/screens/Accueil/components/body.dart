@@ -19,16 +19,23 @@ class Body extends StatefulWidget {
 class _Boddy extends State<Body> {
   String v;
   List categories = ["Toute", "En attente", "Traitées"];
-  final CollectionReference commCollection = FirebaseFirestore.instance.collection("Commande");
+  final CollectionReference commCollection =
+      FirebaseFirestore.instance.collection("Commande");
   final DateTime now = DateTime.now();
 
-  void deleteComm(String dt) {
-    commCollection.where('Date',isLessThan:dt ).get()
-        .then((value) => {
-      for(DocumentSnapshot dc in value.docs){
-        dc.reference.delete(),
-      }
-    });
+  void deleteComm() {
+    String dt = now.year.toString() +
+        "-" +
+        now.month.toString() +
+        "-" +
+        (now.day - 7).toString();
+    //print(dt.toString());
+    commCollection.where('Date', isLessThan: dt).get().then((value) => {
+          for (DocumentSnapshot dc in value.docs)
+            {
+              dc.reference.delete(),
+            }
+        });
   }
 
   FutureOr onGoBack(dynamic value) {
@@ -89,6 +96,32 @@ class _Boddy extends State<Body> {
     return qr.docs;
   }
 
+  Stream<QuerySnapshot> getCommSync(int i) {
+    Stream<QuerySnapshot> qr;
+    setentete();
+
+    if (i == 0)
+      qr = firestore
+          .where("Idmagasins", isEqualTo: widget.idm)
+          .where("EtatPanier", isEqualTo: true)
+          .orderBy('Date', descending: false)
+          .snapshots();
+    else if (i == 1)
+      qr = firestore
+          .where("Idmagasins", isEqualTo: widget.idm)
+          .where("EtatCommande", isEqualTo: false)
+          .where("EtatPanier", isEqualTo: true)
+          .orderBy('Date')
+          .snapshots();
+    else if (i == 2)
+      qr = firestore
+          .where("Idmagasins", isEqualTo: widget.idm)
+          .where("EtatCommande", isEqualTo: true)
+          .orderBy('Date', descending: false)
+          .snapshots();
+    return qr;
+  }
+
   void setentete() async {
     getComm(0).then((value) {
       if (mounted) {
@@ -130,13 +163,13 @@ class _Boddy extends State<Body> {
     });
   }
 
-
   @override
   initState() {
-
     list1.clear();
     setentete();
     revenu();
+    deleteComm();
+
     super.initState();
   }
 
@@ -148,9 +181,15 @@ class _Boddy extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    String dt= now.year.toString()+"-"+now.month.toString()+"-"+(now.day-7).toString();
-    print(dt.toString());
-    deleteComm(dt);
+    // firestore.snapshots().listen((querySnapshot) {
+    //   querySnapshot.docChanges.forEach((change) {
+    //     // Do something with change
+    //     setState(() {
+    //       setentete();
+    //     });
+    //   });
+    // });
+
     new Future.delayed(const Duration(seconds: 3));
     return Scaffold(
       backgroundColor: kPrimaryColor,
@@ -252,8 +291,8 @@ class _Boddy extends State<Body> {
                         ),
                       ),
                     ),
-                    StreamBuilder(
-                      stream: getComm(selectedIndex).asStream(),
+                    StreamBuilder<QuerySnapshot>(
+                      stream: getCommSync(selectedIndex),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return Center(
@@ -265,32 +304,35 @@ class _Boddy extends State<Body> {
                         } else {
                           return ListView.builder(
                             // here we use our demo procuts list
-                            itemCount: snapshot.data.length,
+                            itemCount: snapshot.data.docs.length,
                             itemBuilder: (_, index) => CmdCard(
                               itemIndex: index,
-                              id: snapshot.data[index]
+                              id: snapshot.data.docs[index]
                                   .data()["NumC"]
                                   .toString(),
-                              idetd: snapshot.data[index].data()["IdEtudiant"],
-                              date: snapshot.data[index].data()["Date"],
-                              qte:
-                                  snapshot.data[index].data()["Idcours"].length,
-                              color:
-                                  snapshot.data[index].data()["EtatCommande"],
+                              idetd: snapshot.data.docs[index]
+                                  .data()["IdEtudiant"],
+                              date: snapshot.data.docs[index].data()["Date"],
+                              qte: snapshot.data.docs[index]
+                                  .data()["Idcours"]
+                                  .length,
+                              color: snapshot.data.docs[index]
+                                  .data()["EtatCommande"],
                               press: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DetailsScreen(
-                                      nc: snapshot.data[index]
+                                      nc: snapshot.data.docs[index]
                                           .data()["NumC"]
                                           .toString(),
-                                      date: snapshot.data[index].data()["Date"],
-                                      product: snapshot.data[index]
+                                      date: snapshot.data.docs[index]
+                                          .data()["Date"],
+                                      product: snapshot.data.docs[index]
                                           .data()["Idcours"],
                                     ),
                                   ),
-                                ).then(onGoBack);
+                                ); //.then(onGoBack);
                               },
                             ),
                           );

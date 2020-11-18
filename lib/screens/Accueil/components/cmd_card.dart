@@ -16,7 +16,7 @@ class CmdCard extends StatefulWidget {
       : super(key: key);
 
   final int itemIndex;
-  final String id,idetd, date;
+  final String id, idetd, date;
   final int qte;
   final bool color;
   final Function press;
@@ -58,7 +58,7 @@ class _CmdCardState extends State<CmdCard> {
   Widget build(BuildContext context) {
     // It  will provide us total height and width of our screen
     Size size = MediaQuery.of(context).size;
-    getinfos();
+    //getinfos();
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: kDefaultPadding,
