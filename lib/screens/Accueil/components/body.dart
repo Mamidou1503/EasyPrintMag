@@ -30,12 +30,15 @@ class _Boddy extends State<Body> {
         "-" +
         (now.day - 7).toString();
     //print(dt.toString());
-    commCollection.where('Date', isLessThan: dt).get().then((value) => {
-          for (DocumentSnapshot dc in value.docs)
-            {
-              dc.reference.delete(),
-            }
-        });
+    commCollection
+        .where('Date', isLessThan: dt)
+        .where('Idmagasins', isEqualTo: widget.idm)
+        .snapshots()
+        .forEach((element) {
+      for (DocumentSnapshot dc in element.docs) {
+        dc.reference.delete();
+      }
+    });
   }
 
   FutureOr onGoBack(dynamic value) {
