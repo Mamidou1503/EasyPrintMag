@@ -43,7 +43,7 @@ class CoursCmdCard extends StatelessWidget {
           children: <Widget>[
             // Those are our background
             Container(
-              height: 120,
+              height: 190,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
                 color: kBlueColor,
@@ -62,40 +62,45 @@ class CoursCmdCard extends StatelessWidget {
               bottom: 0,
               left: 0,
               child: SizedBox(
-                height: 120,
+                height: 190,
                 // our image take 200 width, thats why we set out total width - 200
                 width: size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Spacer(),
+
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
+                      padding: const EdgeInsets.only(
+                          left: kDefaultPadding / 1.6,
+                          right: kDefaultPadding * 2.5),
                       child: Text(
                         "Module : " + module + " " + annee,
                         style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
+                      padding: const EdgeInsets.only(
+                          left: kDefaultPadding / 1.6,
+                          right: kDefaultPadding * 2.5),
                       child: Text(
                         "Cours : " + cours,
                         style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
+                      padding: const EdgeInsets.only(
+                          left: kDefaultPadding / 1.6,
+                          right: kDefaultPadding * 2.5),
                       child: Text(
                         "Enseignant : " + enseignant,
                         style: GoogleFonts.montserrat(),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
+                      padding: const EdgeInsets.only(
+                          left: kDefaultPadding / 1.6,
+                          right: kDefaultPadding * 2.5),
                       child: Text(
                         "Nombre de copie : " + copie,
                         style: GoogleFonts.montserrat(),
