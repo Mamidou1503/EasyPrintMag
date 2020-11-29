@@ -49,9 +49,9 @@ class _Boddyy extends State<Body> {
 
   @override
   void initState() {
+    super.initState();
     setlist();
     settot();
-    super.initState();
   }
 
   @override

@@ -27,6 +27,16 @@ class _State extends State<InfoPage> {
       FirebaseFirestore.instance.collection("Magasin");
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+
+    nameController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     //final size = MediaQuery.of(context).size;
     return Scaffold(

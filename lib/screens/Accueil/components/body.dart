@@ -168,12 +168,12 @@ class _Boddy extends State<Body> {
 
   @override
   initState() {
+    super.initState();
+
     list1.clear();
     setentete();
     revenu();
     deleteComm();
-
-    super.initState();
   }
 
   List<dynamic> list1 = [];

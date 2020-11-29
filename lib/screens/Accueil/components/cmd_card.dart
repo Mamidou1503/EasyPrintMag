@@ -50,8 +50,8 @@ class _CmdCardState extends State<CmdCard> {
 
   @override
   initState() {
-    getinfos();
     super.initState();
+    getinfos();
   }
 
   @override
