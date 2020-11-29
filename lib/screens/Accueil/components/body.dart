@@ -75,30 +75,6 @@ class _Boddy extends State<Body> {
     return qr.docs;
   }
 
-  Future getCommm(int i) async {
-    QuerySnapshot qr;
-    if (i == 0)
-      qr = await firestore
-          .where("Idmagasins", isEqualTo: widget.idm)
-          .where("EtatPanier", isEqualTo: true)
-          .orderBy('Date', descending: false)
-          .get();
-    else if (i == 1)
-      qr = await firestore
-          .where("Idmagasins", isEqualTo: widget.idm)
-          .where("EtatCommande", isEqualTo: false)
-          .where("EtatPanier", isEqualTo: true)
-          .orderBy('Date', descending: true)
-          .get();
-    else if (i == 2)
-      qr = await firestore
-          .where("Idmagasins", isEqualTo: widget.idm)
-          .where("EtatCommande", isEqualTo: true)
-          .orderBy('Date', descending: false)
-          .get();
-    return qr.docs;
-  }
-
   Stream<QuerySnapshot> getCommSync(int i) {
     Stream<QuerySnapshot> qr;
     setentete();
@@ -181,6 +157,12 @@ class _Boddy extends State<Body> {
   String txtSearch = "";
   int selectedIndex = 0;
   var firestore = FirebaseFirestore.instance.collection("Commande");
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
