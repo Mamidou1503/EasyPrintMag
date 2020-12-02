@@ -51,33 +51,9 @@ class _Boddy extends State<Body> {
     }
   }
 
-  Future getComm(int i) async {
-    QuerySnapshot qr;
-    if (i == 0)
-      qr = await firestore
-          .where("Idmagasins", isEqualTo: widget.idm)
-          .where("EtatPanier", isEqualTo: true)
-          .orderBy('Date', descending: false)
-          .get();
-    else if (i == 1)
-      qr = await firestore
-          .where("Idmagasins", isEqualTo: widget.idm)
-          .where("EtatCommande", isEqualTo: false)
-          .where("EtatPanier", isEqualTo: true)
-          .orderBy('Date')
-          .get();
-    else if (i == 2)
-      qr = await firestore
-          .where("Idmagasins", isEqualTo: widget.idm)
-          .where("EtatCommande", isEqualTo: true)
-          .orderBy('Date', descending: false)
-          .get();
-    return qr.docs;
-  }
-
   Stream<QuerySnapshot> getCommSync(int i) {
     Stream<QuerySnapshot> qr;
-    setentete();
+    //setentete();
 
     if (i == 0)
       qr = firestore
@@ -102,24 +78,29 @@ class _Boddy extends State<Body> {
   }
 
   void setentete() async {
-    getComm(0).then((value) {
+    firestore
+        .where("Idmagasins", isEqualTo: widget.idm)
+        .where("EtatPanier", isEqualTo: true)
+        .snapshots()
+        .forEach((querySnapshot) {
+      int t = 0, f = 0;
+
+      querySnapshot.docs.forEach((doc) {
+        // Do something with change
+        var etatCmd = doc.data()["EtatCommande"];
+        print(etatCmd);
+
+        if (etatCmd == false)
+          f++;
+        else
+          t++;
+      });
+
       if (mounted) {
         setState(() {
-          categories[0] = "Toutes(" + value.length.toString() + ")";
-        });
-      }
-    });
-    getComm(1).then((value) {
-      if (mounted) {
-        setState(() {
-          categories[1] = "En attente(" + value.length.toString() + ")";
-        });
-      }
-    });
-    getComm(2).then((value) {
-      if (mounted) {
-        setState(() {
-          categories[2] = "Traitées(" + value.length.toString() + ")";
+          categories[0] = "Toutes(" + (f + t).toString() + ")";
+          categories[1] = "En attente(" + f.toString() + ")";
+          categories[2] = "Traitées(" + t.toString() + ")";
         });
       }
     });
@@ -159,6 +140,14 @@ class _Boddy extends State<Body> {
   var firestore = FirebaseFirestore.instance.collection("Commande");
 
   @override
+  void didUpdateWidget(covariant Body oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+
+    setentete();
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
@@ -166,15 +155,6 @@ class _Boddy extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    // firestore.snapshots().listen((querySnapshot) {
-    //   querySnapshot.docChanges.forEach((change) {
-    //     // Do something with change
-    //     setState(() {
-    //       setentete();
-    //     });
-    //   });
-    // });
-
     new Future.delayed(const Duration(seconds: 3));
     return Scaffold(
       backgroundColor: kPrimaryColor,
@@ -221,19 +201,6 @@ class _Boddy extends State<Body> {
                       setState(() {
                         selectedIndex = index;
                         print(index);
-                        getComm(index);
-                        getComm(0).then((value) {
-                          categories[0] =
-                              "Toutes(" + value.length.toString() + ")";
-                        });
-                        getComm(1).then((value) {
-                          categories[1] =
-                              "En attente(" + value.length.toString() + ")";
-                        });
-                        getComm(2).then((value) {
-                          categories[2] =
-                              "Traitées(" + value.length.toString() + ")";
-                        });
                       });
                     },
                     child: Container(
@@ -255,7 +222,7 @@ class _Boddy extends State<Body> {
                       ),
                       child: Text(
                         categories[index],
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),

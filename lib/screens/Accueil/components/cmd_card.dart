@@ -34,8 +34,8 @@ class _CmdCardState extends State<CmdCard> {
     await FirebaseFirestore.instance
         .collection("Users")
         .doc(widget.idetd)
-        .get()
-        .then((value) {
+        .snapshots()
+        .forEach((value) {
       if (mounted) {
         setState(() {
           nom = value.data()['Nom'];
