@@ -121,7 +121,7 @@ class CoursCmdCard extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        "$prix" " D.A.",
+                         " D.A.",
                         style: GoogleFonts.montserrat(color: Colors.white),
                       ),
                     ),

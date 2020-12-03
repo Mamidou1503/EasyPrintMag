@@ -104,7 +104,7 @@ class _Boddyy extends State<Body> {
                     left: kDefaultPadding / 3,
                   ),
                   child: Text(
-                    "Prix total: " + tot.toString() + " D.A",
+                    "Prix total: " + " 5 " + " D.A",
                     style: TextStyle(
                       fontFamily: 'teen',
                       color: kPrimaryColor,
