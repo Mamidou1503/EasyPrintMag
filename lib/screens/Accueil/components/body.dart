@@ -84,11 +84,11 @@ class _Boddy extends State<Body> {
         .snapshots()
         .forEach((querySnapshot) {
       int t = 0, f = 0;
+      print("calling setEntete ");
 
       querySnapshot.docs.forEach((doc) {
         // Do something with change
         var etatCmd = doc.data()["EtatCommande"];
-        print(etatCmd);
 
         if (etatCmd == false)
           f++;
@@ -109,18 +109,33 @@ class _Boddy extends State<Body> {
   void revenu() async {
     list1 = [];
     cmdTrait = 0;
-    firestore
-        .where("Idmagasins", isEqualTo: widget.idm)
-        .where("EtatCommande", isEqualTo: true)
-        .snapshots()
-        .listen((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((element) {
-        list1 = element.data()['Idcours'];
-        for (int i = 0; i < list1.length; i++) {
-          cmdTrait = cmdTrait + int.parse(list1[i].toString().split(",")[1]);
-        }
-      });
+
+    final CollectionReference magasin =
+        FirebaseFirestore.instance.collection('Magasin');
+
+    print(widget.idm);
+    magasin.doc(widget.idm).get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        cmdTrait = documentSnapshot['EasyPrix'];
+        print(
+            'Document exists on the database ${documentSnapshot['EasyPrix']}');
+      }
+    }).catchError((error) {
+      print("Failed to get EasyPrix: $error");
     });
+
+    // firestore
+    //     .where("Idmagasins", isEqualTo: widget.idm)
+    //     .where("EtatCommande", isEqualTo: true)
+    //     .snapshots()
+    //     .listen((QuerySnapshot querySnapshot) {
+    //   querySnapshot.docs.forEach((element) {
+    //     list1 = element.data()['Idcours'];
+    //     for (int i = 0; i < list1.length; i++) {
+    //       cmdTrait = cmdTrait + int.parse(list1[i].toString().split(",")[1]);
+    //     }
+    //   });
+    // });
   }
 
   @override
@@ -129,7 +144,7 @@ class _Boddy extends State<Body> {
 
     list1.clear();
     setentete();
-    revenu();
+    //revenu();
     deleteComm();
   }
 
@@ -169,6 +184,7 @@ class _Boddy extends State<Body> {
           IconButton(
             icon: Image.asset("assets/images/money.png"),
             onPressed: () async {
+              revenu();
               await new Future.delayed(const Duration(seconds: 1));
               showDialog(
                   context: context,
@@ -178,7 +194,7 @@ class _Boddy extends State<Body> {
                         gifPath: "assets/images/icons8-comptabilité-80.png",
                         title: "Revenu hébdomadaire",
                         descreption: "Easy Solution: " +
-                            (this.cmdTrait * 5).toString() +
+                            (this.cmdTrait).toString() +
                             " D.A.",
                       ));
             },
@@ -271,20 +287,24 @@ class _Boddy extends State<Body> {
                               color: snapshot.data.docs[index]
                                   .data()["EtatCommande"],
                               press: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailsScreen(
-                                      nc: snapshot.data.docs[index]
-                                          .data()["NumC"]
-                                          .toString(),
-                                      date: snapshot.data.docs[index]
-                                          .data()["Date"],
-                                      product: snapshot.data.docs[index]
-                                          .data()["Idcours"],
+                                if (snapshot.data.docs[index]
+                                        .data()["EtatCommande"] ==
+                                    false) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailsScreen(
+                                        nc: snapshot.data.docs[index]
+                                            .data()["NumC"]
+                                            .toString(),
+                                        date: snapshot.data.docs[index]
+                                            .data()["Date"],
+                                        product: snapshot.data.docs[index]
+                                            .data()["Idcours"],
+                                      ),
                                     ),
-                                  ),
-                                ); //.then(onGoBack);
+                                  ); //.then(onGoBack);
+                                }
                               },
                             ),
                           );

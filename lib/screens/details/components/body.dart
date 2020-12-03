@@ -5,6 +5,7 @@ import 'package:furniture_app/screens/details/components/coursCmdCard.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
   final List<dynamic> product;
@@ -253,7 +254,18 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
         .where("Date", isEqualTo: widget.dt)
         .get();
 
+    final CollectionReference magasin =
+        FirebaseFirestore.instance.collection('Magasin');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     bool validation = true;
+
+    String idd = prefs.getString('idd');
+    magasin
+        .doc(idd)
+        .update({'EasyPrix': FieldValue.increment(5)})
+        .then((value) => print("EasyPrix Updated"))
+        .catchError((error) => print("Failed to update EasyPrix: $error"));
+
     result.docs.forEach((element) {
       element.reference
           .update({
