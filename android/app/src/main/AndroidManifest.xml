@@ -5,6 +5,14 @@
         android:label="EasyprintMag"
         android:icon="@mipmap/ic_launcher">
         <!--launcher_icons"-->
+
+          <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_name" />
+            <!--    android:resource="@drawable/ic_stat_ic_notification" />
+        -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -39,5 +47,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+          
     </application>
 </manifest>
