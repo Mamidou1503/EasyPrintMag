@@ -3,7 +3,8 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="EasyprintMag"
-        android:icon="@mipmap/launcher_icons">
+        android:icon="@mipmap/ic_launcher">
+        <!--launcher_icons"-->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
