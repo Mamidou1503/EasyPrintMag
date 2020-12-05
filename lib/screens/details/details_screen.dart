@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_app/constants.dart';
 import 'components/body.dart';
+
 class DetailsScreen extends StatefulWidget {
   final List<dynamic> product;
   final String nc, date;
-  const DetailsScreen({Key key, this.product, this.nc, this.date})
+  final bool etatCmd;
+  const DetailsScreen({Key key, this.product, this.nc, this.date, this.etatCmd})
       : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         nc: nc,
         date: date,
         product: widget.product,
+        etatCmd: widget.etatCmd,
       ),
     );
   }

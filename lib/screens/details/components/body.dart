@@ -11,7 +11,10 @@ class Body extends StatefulWidget {
   final List<dynamic> product;
   final List<dynamic> cours;
   final String nc, date;
-  const Body({Key key, this.product, this.cours, this.nc, this.date})
+  final bool etatCmd;
+
+  const Body(
+      {Key key, this.product, this.cours, this.nc, this.date, this.etatCmd})
       : super(key: key);
   State<StatefulWidget> createState() => _Boddyy(this.product);
 }
@@ -103,9 +106,9 @@ class _Boddyy extends State<Body> {
                   padding: const EdgeInsets.only(
                     left: kDefaultPadding / 3,
                   ),
-                  child: Text(
+                  child: const Text(
                     "Prix total: " + " 5 " + " D.A",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'teen',
                       color: kPrimaryColor,
                       fontSize: 14,
@@ -158,12 +161,31 @@ class _Boddyy extends State<Body> {
           //ProgressButtonHomePage(title: "Valider",),
           Container(
             height: size.height * 0.12,
-            child: ProgressButtonHomePage(
-              title: "Valider",
-              ncc: widget.nc,
-              dt: widget.date,
-              boddyy: this,
-            ),
+            child: (widget.etatCmd == false)
+                ? ProgressButtonHomePage(
+                    title: "Valider",
+                    ncc: widget.nc,
+                    dt: widget.date,
+                    boddyy: this,
+                  )
+                : Center(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding, // 30 padding
+                        vertical: kDefaultPadding / 1.5, // 5 top and bottom
+                      ),
+                      decoration: BoxDecoration(
+                        color: kBlueColor,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
+                      child: Text(
+                        "Commande validé",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ),
           )
         ],
       ),
@@ -254,36 +276,56 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
         .where("Date", isEqualTo: widget.dt)
         .get();
 
-    final CollectionReference magasin =
-        FirebaseFirestore.instance.collection('Magasin');
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool validation = true;
-
-    String idd = prefs.getString('idd');
-    magasin
-        .doc(idd)
-        .update({'EasyPrix': FieldValue.increment(5)})
-        .then((value) => print("EasyPrix Updated"))
-        .catchError((error) => print("Failed to update EasyPrix: $error"));
-
+    bool etatCmd2;
     result.docs.forEach((element) {
-      element.reference
-          .update({
-            'EtatCommande': true,
-          })
-          .then((value) {})
-          .catchError((e) {
-            print(e);
-            validation = false;
-          });
+      etatCmd2 = element.data()["EtatCommande"];
+
+      print("etatCmd2 : $etatCmd2");
     });
-    Future.delayed(Duration(seconds: 2), () {
-      if (validation) {
-        Navigator.pop(
-          context,
-        );
+
+    if (etatCmd2 == false) {
+      final CollectionReference magasin =
+          FirebaseFirestore.instance.collection('Magasin');
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool validation = true;
+
+      String idd = prefs.getString('idd');
+      magasin
+          .doc(idd)
+          .update({'EasyPrix': FieldValue.increment(5)})
+          .then((value) => print("EasyPrix Updated"))
+          .catchError((error) => print("Failed to update EasyPrix: $error"));
+
+      result.docs.forEach((element) {
+        element.reference
+            .update({
+              'EtatCommande': true,
+            })
+            .then((value) {})
+            .catchError((e) {
+              print(e);
+              validation = false;
+            });
+      });
+      Future.delayed(Duration(seconds: 2), () {
+        if (validation) {
+          if (mounted) {
+            setState(() {
+              stateTextWithIcon = ButtonState.success;
+            });
+          }
+          Navigator.pop(
+            context,
+          );
+        }
+      });
+    } else {
+      if (mounted) {
+        setState(() {
+          stateTextWithIcon = ButtonState.fail;
+        });
       }
-    });
+    }
 
     // widget.boddyy.setState(() {
     //   widget.boddyy.product = [];
@@ -324,15 +366,16 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
   void onPressedIconWithText() {
     switch (stateTextWithIcon) {
       case ButtonState.idle:
-        validerpanier(widget.ncc);
         stateTextWithIcon = ButtonState.loading;
-        Future.delayed(Duration(seconds: 1), () {
-          if (mounted) {
-            setState(() {
-              stateTextWithIcon = ButtonState.success;
-            });
-          }
-        });
+
+        validerpanier(widget.ncc);
+        // Future.delayed(Duration(seconds: 1), () {
+        //   if (mounted) {
+        //     setState(() {
+        //       stateTextWithIcon = ButtonState.success;
+        //     });
+        //   }
+        // });
 
         break;
       case ButtonState.loading:

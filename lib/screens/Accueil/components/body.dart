@@ -287,24 +287,26 @@ class _Boddy extends State<Body> {
                               color: snapshot.data.docs[index]
                                   .data()["EtatCommande"],
                               press: () {
-                                if (snapshot.data.docs[index]
-                                        .data()["EtatCommande"] ==
-                                    false) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailsScreen(
-                                        nc: snapshot.data.docs[index]
-                                            .data()["NumC"]
-                                            .toString(),
-                                        date: snapshot.data.docs[index]
-                                            .data()["Date"],
-                                        product: snapshot.data.docs[index]
-                                            .data()["Idcours"],
-                                      ),
+                                // if (snapshot.data.docs[index]
+                                //         .data()["EtatCommande"] ==
+                                //     false) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailsScreen(
+                                      nc: snapshot.data.docs[index]
+                                          .data()["NumC"]
+                                          .toString(),
+                                      date: snapshot.data.docs[index]
+                                          .data()["Date"],
+                                      product: snapshot.data.docs[index]
+                                          .data()["Idcours"],
+                                      etatCmd: snapshot.data.docs[index]
+                                          .data()["EtatCommande"],
                                     ),
-                                  ); //.then(onGoBack);
-                                }
+                                  ),
+                                ); //.then(onGoBack);
+                                // }
                               },
                             ),
                           );
