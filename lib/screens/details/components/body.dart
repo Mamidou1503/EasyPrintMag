@@ -68,11 +68,11 @@ class _Boddyy extends State<Body> {
         children: <Widget>[
           Container(
             width: double.infinity,
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 left: kDefaultPadding,
                 top: kDefaultPadding / 6,
                 bottom: kDefaultPadding / 6),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: kBackgroundColor,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
@@ -126,7 +126,7 @@ class _Boddyy extends State<Body> {
             children: [
               Container(
                 height: size.height * 0.63,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: kBackgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -170,19 +170,20 @@ class _Boddyy extends State<Body> {
                   )
                 : Center(
                     child: Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: kDefaultPadding, // 30 padding
                         vertical: kDefaultPadding / 1.5, // 5 top and bottom
                       ),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: kBlueColor,
                         borderRadius: BorderRadius.all(
                           Radius.circular(25),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         "Commande validé",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
                   ),
@@ -276,7 +277,7 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
         .where("Date", isEqualTo: widget.dt)
         .get();
 
-    bool etatCmd2;
+    bool etatCmd2 = false;
     result.docs.forEach((element) {
       etatCmd2 = element.data()["EtatCommande"];
 
@@ -297,34 +298,31 @@ class _ProgressButtonHomePageState extends State<ProgressButtonHomePage> {
           .catchError((error) => print("Failed to update EasyPrix: $error"));
 
       result.docs.forEach((element) {
-        element.reference
-            .update({
-              'EtatCommande': true,
-            })
-            .then((value) {})
-            .catchError((e) {
-              print(e);
-              validation = false;
-            });
-      });
-      Future.delayed(Duration(seconds: 2), () {
-        if (validation) {
+        element.reference.update({
+          'EtatCommande': true,
+        }).then((value) {
           if (mounted) {
             setState(() {
               stateTextWithIcon = ButtonState.success;
             });
           }
+        }).catchError((e) {
+          print(e);
+          validation = false;
+          if (mounted) {
+            setState(() {
+              stateTextWithIcon = ButtonState.fail;
+            });
+          }
+        });
+      });
+      Future.delayed(Duration(seconds: 2), () {
+        if (validation) {
           Navigator.pop(
             context,
           );
         }
       });
-    } else {
-      if (mounted) {
-        setState(() {
-          stateTextWithIcon = ButtonState.fail;
-        });
-      }
     }
 
     // widget.boddyy.setState(() {

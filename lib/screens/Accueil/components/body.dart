@@ -24,12 +24,25 @@ class _Boddy extends State<Body> {
   final DateTime now = DateTime.now();
 
   void deleteComm() {
-    String dt = now.year.toString() +
-        "-" +
-        now.month.toString() +
-        "-" +
-        (now.day - 7).toString();
+    // String dt = now.year.toString() +
+    //     "-" +
+    //     now.month.toString() +
+    //     "-" +
+    //     (now.day - 7).toString();
     //print(dt.toString());
+    DateTime weekAgo = now.subtract(Duration(days: 7));
+
+    print("weekAgo: $weekAgo");
+    String dt = weekAgo.year.toString() +
+        "-" +
+        weekAgo.month.toString() +
+        "-" +
+        ((weekAgo.day < 10)
+            ? "0" + weekAgo.day.toString()
+            : weekAgo.day.toString());
+//one day timestamp = 86400
+    print("dt: $dt");
+
     commCollection
         .where('Date', isLessThan: dt)
         .where('Idmagasins', isEqualTo: widget.idm)
@@ -206,7 +219,8 @@ class _Boddy extends State<Body> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
+                margin:
+                    const EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
                 height: 30,
                 child: ListView.builder(
                   //physics: const NeverScrollableScrollPhysics(),
@@ -228,8 +242,8 @@ class _Boddy extends State<Body> {
                             ? kDefaultPadding / 4
                             : 0,
                       ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding),
                       decoration: BoxDecoration(
                         color: index == selectedIndex
                             ? Colors.white.withOpacity(0.4)
@@ -250,8 +264,8 @@ class _Boddy extends State<Body> {
                   children: <Widget>[
                     // Our background
                     Container(
-                      margin: EdgeInsets.only(top: 60),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.only(top: 60),
+                      decoration: const BoxDecoration(
                         color: kBackgroundColor,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),
@@ -263,9 +277,10 @@ class _Boddy extends State<Body> {
                       stream: getCommSync(selectedIndex),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(Colors.red),
+                          return const Center(
+                            child: const CircularProgressIndicator(
+                              valueColor:
+                                  const AlwaysStoppedAnimation(Colors.red),
                               strokeWidth: 3.0,
                             ),
                           );

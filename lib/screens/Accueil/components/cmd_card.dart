@@ -60,7 +60,7 @@ class _CmdCardState extends State<CmdCard> {
     Size size = MediaQuery.of(context).size;
     //getinfos();
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: kDefaultPadding,
         vertical: kDefaultPadding / 2,
       ),
@@ -82,7 +82,7 @@ class _CmdCardState extends State<CmdCard> {
                 boxShadow: [kDefaultShadow],
               ),
               child: Container(
-                margin: EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(right: 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(22),
@@ -145,7 +145,7 @@ class _CmdCardState extends State<CmdCard> {
                     ),
                     Spacer(),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: kDefaultPadding * 1.5, // 30 padding
                         vertical: kDefaultPadding / 4, // 5 top and bottom
                       ),

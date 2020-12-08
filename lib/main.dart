@@ -13,7 +13,7 @@ void main() async {
 
   String idd = prefs.getString('idd');
   await Firebase.initializeApp();
-  runApp(statuss == null ? Infpg() : MaterialApp(home: MyApp(idmag: idd)));
+  runApp(statuss == null ? Infpg() : MyApp(idmag: idd));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'EasyPrint',
+      title: 'EasyPrintMag',
       theme: ThemeData(
         // We set Poppins as our default font
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),

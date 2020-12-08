@@ -41,7 +41,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       elevation: 0,
       leading: IconButton(
         padding: EdgeInsets.only(left: kDefaultPadding),
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
           color: Colors.white,
         ),
@@ -52,7 +52,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       centerTitle: false,
       title: Text(
         'Détail'.toUpperCase(),
-        style: TextStyle(fontSize: 18, color: Colors.white),
+        style: const TextStyle(fontSize: 18, color: Colors.white),
       ),
     );
   }

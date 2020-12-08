@@ -10,6 +10,7 @@ class Infpg extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'EasyPrintMag',
       home: InfoPage(),
     );
   }
@@ -45,12 +46,12 @@ class _State extends State<InfoPage> {
           title: Text('Authentification ', style: GoogleFonts.pacifico()),
         ),
         body: Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: ListView(
               children: <Widget>[
                 Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Text(
                       'EasyPrint',
                       style: GoogleFonts.pacifico(
@@ -59,7 +60,7 @@ class _State extends State<InfoPage> {
                           fontSize: 30),
                     )),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: TextField(
                     controller: nameController,
                     decoration: InputDecoration(
@@ -69,7 +70,7 @@ class _State extends State<InfoPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: TextField(
                     obscureText: false,
                     controller: passwordController,
@@ -81,11 +82,11 @@ class _State extends State<InfoPage> {
                 ),
                 Container(
                     height: 60,
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: RaisedButton(
                         textColor: Colors.white,
                         color: kTextColor,
-                        child: Text('Se-Connecter.'),
+                        child: const Text('Se-Connecter.'),
                         onPressed: () async {
                           final SharedPreferences prefs =
                               await SharedPreferences.getInstance();
@@ -114,11 +115,11 @@ class _State extends State<InfoPage> {
                         })),
                 Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.fromLTRB(5, 20, 5, 20),
-                    child: Text(
+                    padding: const EdgeInsets.fromLTRB(5, 20, 5, 20),
+                    child: const Text(
                       'EasyPrint..',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: kTextColor,
                           fontWeight: FontWeight.w500,
                           fontSize: 14),

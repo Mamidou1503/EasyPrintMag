@@ -30,7 +30,7 @@ class CoursCmdCard extends StatelessWidget {
     // It  will provide us total height and width of our screen
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: kDefaultPadding,
         vertical: kDefaultPadding / 2,
       ),
@@ -50,7 +50,7 @@ class CoursCmdCard extends StatelessWidget {
                 boxShadow: [kDefaultShadow],
               ),
               child: Container(
-                margin: EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(right: 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(22),
@@ -109,11 +109,11 @@ class CoursCmdCard extends StatelessWidget {
                     // it use the available space
                     Spacer(),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: kDefaultPadding * 1.5, // 30 padding
                         vertical: kDefaultPadding / 4, // 5 top and bottom
                       ),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: kBlueColor,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(22),
@@ -121,7 +121,7 @@ class CoursCmdCard extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                         " D.A.",
+                        " D.A.",
                         style: GoogleFonts.montserrat(color: Colors.white),
                       ),
                     ),
