@@ -24,12 +24,6 @@ class _Boddy extends State<Body> {
   final DateTime now = DateTime.now();
 
   void deleteComm() {
-    // String dt = now.year.toString() +
-    //     "-" +
-    //     now.month.toString() +
-    //     "-" +
-    //     (now.day - 7).toString();
-    //print(dt.toString());
     DateTime weekAgo = now.subtract(Duration(days: 7));
 
     print("weekAgo: $weekAgo");
@@ -172,7 +166,7 @@ class _Boddy extends State<Body> {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
 
-    setentete();
+    //setentete();
   }
 
   @override
